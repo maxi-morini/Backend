@@ -1,8 +1,33 @@
 const express = require('express')
 const cors = require('cors')
+const mongoose = require('mongoose')
 const app = express()
 
 app.use(express.static('dist'))
+
+const pass = process.argv[2]
+
+const url = `mongodb+srv://pabloadpe:${pass}@cluster0.juw9yhi.mongodb.net/noteApp?
+            retryWrites=true&w=majority`
+
+
+mongoose.set('strictQuery',false)
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+    content : String,
+    important : Boolean,
+})
+
+noteSchema.set('toJSON',{
+            transform : (document,returnedObject) => {
+                returnedObject.id = returnedObject._id.toString()
+                delete returnedObject._id
+                delete returnedObject.__v }
+})
+
+
+const Note = mongoose.model('Note',noteSchema)
 
 let notes = [
     {
@@ -29,7 +54,9 @@ app.get('/',(req, res)=>{
     res.send('<h1>Hello worldango</h1>')
 }) 
 app.get('/api/notes',(req,res)=>{
-    res.json(notes)
+    Note.find({}).then(notes=>{
+        res.json(notes)
+    })   
 })
 app.get('/api/notes/:id',(req,res)=>{
     const id =Number(req.params.id)

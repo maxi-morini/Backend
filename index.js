@@ -1,18 +1,21 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const app = express()
 
+const Note = require('./models/note')
+
 app.use(express.static('dist'))
 
 const pass = process.argv[2]
 
-const url = `mongodb+srv://pabloadpe:${pass}@cluster0.juw9yhi.mongodb.net/noteApp?
-            retryWrites=true&w=majority`
+// const url = `mongodb+srv://pabloadpe:${pass}@cluster0.juw9yhi.mongodb.net/noteApp?
+//             retryWrites=true&w=majority`
 
 
 mongoose.set('strictQuery',false)
-mongoose.connect(url)
+// mongoose.connect(url)
 
 const noteSchema = new mongoose.Schema({
     content : String,
@@ -27,7 +30,7 @@ noteSchema.set('toJSON',{
 })
 
 
-const Note = mongoose.model('Note',noteSchema)
+//const Note = mongoose.model('Note',noteSchema)
 
 let notes = [
     {

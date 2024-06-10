@@ -27,23 +27,23 @@ noteSchema.set('toJSON',{
 
 
 
-let notes = [
-    {
-        id:1,
-        content:'HTML is easy',
-        important: true
-    },
-    {
-        id:2,
-        content:'Browser can execute only JavaScript',
-        important: false
-    },
-    {
-        id:3,
-        content:'GET and POST are the most important methods of HTTP protocol',
-        important: true
-    }
-]
+// let notes = [
+//     {
+//         id:1,
+//         content:'HTML is easy',
+//         important: true
+//     },
+//     {
+//         id:2,
+//         content:'Browser can execute only JavaScript',
+//         important: false
+//     },
+//     {
+//         id:3,
+//         content:'GET and POST are the most important methods of HTTP protocol',
+//         important: true
+//     }
+// ]
 
 
 app.use(express.json())
@@ -53,7 +53,6 @@ app.get('/',(req, res)=>{
 }) 
 app.post('/api/notes',(req, res, next)=>{
     const body = req.body
-    console.log(req.body)
     const note = new Note({
         content: body.content,
         important: body.important || false,
@@ -67,6 +66,7 @@ app.post('/api/notes',(req, res, next)=>{
 })
 app.get('/api/notes',(req ,res ,next)=>{
     Note.find({}).then(notes=>{
+        console.log(notes);
         res.json(notes)
     })   
 })

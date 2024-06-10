@@ -6,8 +6,6 @@ if(process.argv.length<3){
 }
 
 const pass = process.argv[2]
-const url = `mongodb+srv://pabloadpe:${pass}@cluster0.juw9yhi.mongodb.net/noteApp?
-            retryWrites=true&w=majority`
 
 mongoose.set('strictQuery',false)
 mongoose.connect(url)
@@ -19,6 +17,12 @@ const noteSchema = new mongoose.Schema({
       required: true
     },
     important : Boolean,
+})
+Note.find({}).then(result => {
+  result.forEach(note => {
+    console.log(note)
+  })
+  mongoose.connection.close()
 })
 
 const Note = mongoose.model('Note',noteSchema)
@@ -35,9 +39,3 @@ const Note = mongoose.model('Note',noteSchema)
 //     }
 // )
 
-Note.find({}).then(result => {
-    result.forEach(note => {
-      console.log(note)
-    })
-    mongoose.connection.close()
-  })

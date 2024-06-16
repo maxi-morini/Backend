@@ -8,7 +8,7 @@ const Note = require('./models/note')
 
 app.use(express.static('dist'))
 
-const pass = process.argv[2]
+// const pass = process.argv[2]
 
 
 mongoose.set('strictQuery',false)
@@ -65,13 +65,14 @@ app.post('/api/notes',(req, res, next)=>{
     .catch(err=> next(err))
 })
 app.get('/api/notes',(req ,res ,next)=>{
+    console.log('entrara');
     Note.find({}).then(notes=>{
         console.log(notes);
         res.json(notes)
     })   
 })
-app.get('/api/notes/:id',(req,res)=>{
-    Note.findById(request.params.id)
+app.get('/api/notes/:id',(req,res, next)=>{
+    Note.findById(req.params.id)
     .then(note => {
         if(note){
             res.json(note)
@@ -90,10 +91,10 @@ app.delete('/api/notes/:id',( req , res, next)=>{
     .catch(error => next(error))
 })
 
-const generadorId = () =>{
-    const maxId = notes.length > 0 ? Math.max(...notes.map(n => n.id)) : 0
-    return maxId +1 
-}
+// const generadorId = () =>{
+//     const maxId = notes.length > 0 ? Math.max(...notes.map(n => n.id)) : 0
+//     return maxId +1 
+// }
 
 
 
@@ -107,7 +108,7 @@ app.put('/api/notes/:id',(req,res, next)=>{
         {new : true, runValidators : true, context: 'query' }
     )
     .then(updatedNote => {
-        response.json(updatedNote)
+        res.json(updatedNote)
       })
       .catch(error => next(error))
 })
@@ -132,7 +133,7 @@ const errorHandler = ( error , request , response , next ) => {
 }
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT 
 app.listen(PORT, () => 
     console.log(`server running on port ${PORT}`),
     console.log('nuevo'))

@@ -27,15 +27,26 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model('Note',noteSchema)
 
-// const note = new Note({
-//     content:'GET and POST are the most important methods of HTTP protocol',
-//         important: true,
-// })
+const note1 = new Note({
+    content:'nota agregada en mongo.js',
+        important: true,
+})
 
-// note.save().then(
-//     result => {
-//         console.log('nota guardada');
-//         mongoose.connection.close()
-//     }
-// )
+note1.save().then(
+    result => {
+        console.log('nota guardada');
+        mongoose.connection.close()
+    }
+)
 
+const note2 = new Note({
+  content:'nota agregada en mongo.js',
+      important: true,
+})
+
+note2.save().then(
+  result => {
+      console.log('nota guardada');
+      mongoose.connection.close()
+  }
+)
